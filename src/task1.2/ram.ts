@@ -10,17 +10,13 @@ import {
 import { stringifyBookRow, processBookData } from './helpers';
 
 const writeToFile = (data: ProcessedBook[]) =>
-  writeFile(
-    PATH_TO_RESULT_FILE,
-    data.map(stringifyBookRow).join(''),
-    (error) => {
-      if (error) {
-        console.error(MESSAGES.ERROR);
-        return;
-      }
-      console.log(MESSAGES.SUCCESS);
+  writeFile(PATH_TO_RESULT_FILE, data.map(stringifyBookRow).join(''), (error) => {
+    if (error) {
+      console.error(MESSAGES.ERROR);
+      return;
     }
-  );
+    console.log(MESSAGES.SUCCESS);
+  });
 
 export const ramProcessing = () =>
   readFile(PATH_TO_SOURCE_FILE, 'utf-8', (error, data) => {
@@ -28,8 +24,5 @@ export const ramProcessing = () =>
       console.error(error);
       return;
     }
-    csv(CSV_PARSER_CONFIG)
-      .fromString(data)
-      .then(processBookData)
-      .then(writeToFile);
+    csv(CSV_PARSER_CONFIG).fromString(data).then(processBookData).then(writeToFile);
   });

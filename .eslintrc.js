@@ -11,11 +11,7 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
-    'prettier/prettier': [
-      'error',
-      { singleQuote: true },
-      { trailingComma: true },
-    ],
+    'prettier/prettier': ['error', { singleQuote: true, printWidth: 90 }, { trailingComma: true }],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
   },

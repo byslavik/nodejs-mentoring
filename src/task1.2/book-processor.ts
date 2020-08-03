@@ -13,11 +13,7 @@ export class BookProcessor extends Transform {
       console.log(MESSAGES.PROCESSOR_DATA);
     });
   }
-  _transform(
-    chunk: Buffer,
-    enc: BufferEncoding,
-    callback: TransformCallback
-  ): void {
+  _transform(chunk: Buffer, enc: BufferEncoding, callback: TransformCallback): void {
     const book: IncomingBook = JSON.parse(chunk.toString());
 
     callback(null, stringifyBookRow(prepareBookData(book)));
