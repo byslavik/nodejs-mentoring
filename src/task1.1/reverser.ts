@@ -14,7 +14,7 @@ export class Reverser extends Transform {
   }
 
   prepareChunk(chunk: Buffer): string {
-    return chunk.toString('utf-8').replace('\r\n', '');
+    return chunk.toString('utf-8').replace(/\n|\r/, '');
   }
 
   processData(data: string): string {
