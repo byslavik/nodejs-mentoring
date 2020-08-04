@@ -21,10 +21,15 @@ export const MESSAGES = {
   SUCCESS: 'File successfully saved.',
   ERROR: 'Error during file processing.',
   PROCESSOR_PIPED: 'Book processor is piped.',
-  PROCESSOR_DATA: 'Transforming chunk of data.',
+  PROCESSOR_DATA: 'Getting chunk of data.',
 };
 
 export const FLAGS = {
   STREAM: '--stream',
   RAM: '--ram',
+};
+
+export const STREAM_PROCESSING_FLAGS = {
+  SUBSCRIBE: 'subscribe',
+  TRANSFORM: 'transform',
 };

@@ -2,11 +2,13 @@ import { streamProcessing } from './stream';
 import { ramProcessing } from './ram';
 import { FLAGS } from './constants';
 
-switch (process.argv[2]) {
-  case FLAGS.RAM:
+const flag = process.argv[2];
+
+switch (true) {
+  case flag.includes(FLAGS.RAM):
     ramProcessing();
     break;
-  case FLAGS.STREAM:
+  case flag.includes(FLAGS.STREAM):
     streamProcessing();
     break;
   default:
