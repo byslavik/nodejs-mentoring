@@ -19,7 +19,7 @@ export const processBookData = (books: IncomingBook[]): ProcessedBook[] =>
 export const stringifyBookRow = (book: ProcessedBook): string =>
   JSON.stringify(book).concat('\n');
 
-export const csvSubscribeProcessor = (book: any) => {
+export const csvSubscribeProcessor = (book: any): void => {
   Object.assign(book, prepareBookData(book));
   delete book.Author;
   delete book.Book;
