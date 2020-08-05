@@ -5,7 +5,7 @@
   "license": "MIT",
   "engines": {
     "node": "^12.18.3",
-    "yarn": "^1.18"
+    "yarn": "^1.21"
   },
   "scripts": {
     "build": "tsc",
