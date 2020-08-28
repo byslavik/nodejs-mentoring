@@ -10,10 +10,10 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint",
-    "start:1.1": "nodemon ./src/task1.1/index.ts",
-    "start:1.2:ram": "nodemon ./src/task1.2/index.ts --ram",
-    "start:1.2:stream": "nodemon ./src/task1.2/index.ts --stream",
-    "start:2": "nodemon ./src/task2/index.ts"
+    "start:1.1": "nodemon ./src/core/task1.1/index.ts",
+    "start:1.2:ram": "nodemon ./src/core/task1.2/index.ts --ram",
+    "start:1.2:stream": "nodemon ./src/core/task1.2/index.ts --stream",
+    "start:2": "nodemon ./src/api/index.ts"
   },
   "devDependencies": {
     "@types/node": "^14.0.27",
