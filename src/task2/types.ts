@@ -1,14 +1,12 @@
-export type UserSchema = {
+export interface UserSchema {
   login: string;
   password: string;
   age: number;
-};
+}
 
-export type User = UserSchema & {
+export interface User extends UserSchema {
   id: string;
   isDeleted: boolean;
-};
+}
 
-export type UserList = {
-  [key: string]: User;
-};
+export type UserList = Record<string, User>;

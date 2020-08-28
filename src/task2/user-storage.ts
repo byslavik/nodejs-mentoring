@@ -51,7 +51,7 @@ export class UserStorage {
     return Object.values(this.users)
       .filter(
         (user) =>
-          !user.isDeleted && user.login.toLowerCase().startsWith(search.toLowerCase())
+          !user.isDeleted && user.login.toLowerCase().includes(search.toLowerCase())
       )
       .sort((a, b) => (a.login > b.login ? 1 : -1))
       .slice(0, limit);
