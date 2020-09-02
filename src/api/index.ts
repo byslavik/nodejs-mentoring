@@ -1,15 +1,10 @@
-import express from 'express';
+import sequelize from './db';
+import app from './app';
 
-import userRouter from './routes/users';
-import { globalErrorHandler } from './mwares';
+(async () => {
+  await sequelize.sync();
 
-const app = express();
-
-app.use(express.json());
-app.use('/user', userRouter);
-
-app.use(globalErrorHandler);
-
-app.listen(8080, () => {
-  console.log('server is ready');
-});
+  app.listen(8080, () => {
+    console.log('server is ready');
+  });
+})();
