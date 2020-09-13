@@ -1,0 +1,4 @@
+export const ERRORS = {
+  VALIDATION_ERROR: 'VALIDATION_ERROR',
+  APP_ERROR: 'APP_ERROR',
+};

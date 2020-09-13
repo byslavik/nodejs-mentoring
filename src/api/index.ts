@@ -1,15 +1,13 @@
-import express from 'express';
+import dotenv from 'dotenv';
+dotenv.config();
 
-import userRouter from './routes/users';
-import { globalErrorHandler } from './mwares';
+import sequelize from './db';
+import app from './app';
 
-const app = express();
+(async () => {
+  await sequelize.sync();
 
-app.use(express.json());
-app.use('/user', userRouter);
-
-app.use(globalErrorHandler);
-
-app.listen(8080, () => {
-  console.log('server is ready');
-});
+  app.listen(8080, () => {
+    console.log('server is ready');
+  });
+})();

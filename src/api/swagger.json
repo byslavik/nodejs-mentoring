@@ -1,0 +1,250 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Rest API for User service",
+    "description": "Allows you to use CRUD operations for users",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:8080",
+  "basePath": "/api/v1",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/user": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Create new user in system",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "required": true,
+            "description": "User that we want to create",
+            "schema": {
+              "$ref": "#/definitions/UserCreateRequest"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "New user is created",
+            "schema": {
+              "$ref": "#/definitions/UserResponse"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Errors"
+            }
+          }
+        }
+      }
+    },
+    "/user/{userId}": {
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "description": "ID of user that we want to find/update/delete",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get user with given ID",
+        "responses": {
+          "200": {
+            "description": "User is found",
+            "schema": {
+              "$ref": "#/definitions/UserResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete user with given ID",
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "User is deleted"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update user with give ID",
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "required": true,
+            "description": "User with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/UserUdateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User is updated",
+            "schema": {
+              "$ref": "#/definitions/UserResponse"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Errors"
+            }
+          }
+        }
+      }
+    },
+    "/user/search": {
+      "post": {
+        "summary": "User search",
+        "tags": [
+          "Search"
+        ],
+        "parameters": [
+          {
+            "name": "search",
+            "in": "body",
+            "required": true,
+            "description": "Data for user search",
+            "schema": {
+              "$ref": "#/definitions/UserSearchRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns found users",
+            "schema": {
+              "$ref": "#/definitions/UserSearchResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "UserUdateRequest": {
+      "properties": {
+        "age": {
+          "type": "number"
+        },
+        "login": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "UserCreateRequest": {
+      "required": [
+        "login",
+        "password",
+        "age"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/UserUdateRequest"
+        }
+      ]
+    },
+    "UserResponse": {
+      "properties": {
+        "age": {
+          "type": "number"
+        },
+        "login": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      }
+    },
+    "UserSearchRequest": {
+      "required": [
+        "query",
+        "limit"
+      ],
+      "properties": {
+        "query": {
+          "type": "string"
+        },
+        "limit": {
+          "type": "string"
+        }
+      }
+    },
+    "UserSearchResponse": {
+      "properties": {
+        "count": {
+          "type": "number"
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserResponse"
+          }
+        }
+      }
+    },
+    "Error": {
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Errors": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Error"
+      }
+    }
+  }
+}
