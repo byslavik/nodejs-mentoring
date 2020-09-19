@@ -3,7 +3,7 @@
   "info": {
     "version": "1.0.0",
     "title": "Rest API for User service",
-    "description": "Allows you to use CRUD operations for users",
+    "description": "Allows you to use CRUD operations for users and groups",
     "license": {
       "name": "MIT",
       "url": "https://opensource.org/licenses/MIT"
@@ -150,6 +150,135 @@
           }
         }
       }
+    },
+    "/group": {
+      "post": {
+        "tags": [
+          "Group"
+        ],
+        "description": "Create new user in system",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "body",
+            "required": true,
+            "description": "Group that we want to create",
+            "schema": {
+              "$ref": "#/definitions/GroupCreateRequest"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "New group is created",
+            "schema": {
+              "$ref": "#/definitions/GroupResponse"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Errors"
+            }
+          }
+        }
+      }
+    },
+    "/group/{groupId}": {
+      "parameters": [
+        {
+          "name": "groupId",
+          "in": "path",
+          "required": true,
+          "description": "ID of group that we want to find/update/delete",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Get group with given ID",
+        "responses": {
+          "200": {
+            "description": "Group is found",
+            "schema": {
+              "$ref": "#/definitions/GroupResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete group with given ID",
+        "tags": [
+          "Group"
+        ],
+        "responses": {
+          "200": {
+            "description": "Group is deleted"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update group with given ID",
+        "tags": [
+          "Group"
+        ],
+        "parameters": [
+          {
+            "name": "group",
+            "in": "body",
+            "required": true,
+            "description": "Group with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/GroupUpdateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Group is updated",
+            "schema": {
+              "$ref": "#/definitions/GroupResponse"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Errors"
+            }
+          }
+        }
+      }
+    },
+    "/group/addUsersToGroup": {
+      "post": {
+        "summary": "Add users to group",
+        "tags": [
+          "Group"
+        ],
+        "parameters": [
+          {
+            "name": "params",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddUsersToGroupRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns found users",
+            "schema": {
+              "$ref": "#/definitions/UserSearchResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -203,6 +332,43 @@
         }
       }
     },
+    "GroupResponse": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      }
+    },
+    "AddUsersToGroupRequest": {
+      "properties": {
+        "userIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "groupId": {
+          "type": "string"
+        }
+      }
+    },
     "UserSearchRequest": {
       "required": [
         "query",
@@ -226,6 +392,36 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/UserResponse"
+          }
+        }
+      }
+    },
+    "GroupCreateRequest": {
+      "required": [
+        "name",
+        "permissions"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "GroupUpdateRequest": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "type": "string"
           }
         }
       }
