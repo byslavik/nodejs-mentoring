@@ -4,6 +4,7 @@ import {
   ValidatedRequestSchema,
   ContainerTypes,
 } from 'express-joi-validation';
+import { User } from '../../models';
 
 const validator = createValidator({
   passError: true,
@@ -29,11 +30,7 @@ const updateUserSchema = Joi.object({
 });
 
 export interface UserRequestSchema extends ValidatedRequestSchema {
-  [ContainerTypes.Body]: {
-    login: string;
-    password: string;
-    age: number;
-  };
+  [ContainerTypes.Body]: User;
 }
 
 export const addUserDataValidator = validator.body(addUserSchema);

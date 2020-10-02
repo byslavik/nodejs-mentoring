@@ -1,7 +1,6 @@
 import { where, fn, col } from 'sequelize';
 
-import { UserSchema } from '../../types';
-import { User as UserModel } from '../../models';
+import { User as UserModel, Group } from '../../models';
 
 export const getUser = (id: string) => {
   return UserModel.findOne({
@@ -11,14 +10,15 @@ export const getUser = (id: string) => {
   });
 };
 
-export const createUser = (user: UserSchema) => {
+export const createUser = (user: UserModel) => {
   return UserModel.create(user);
 };
 
-export const updateUser = (id: string, userData: UserSchema) => {
-  return UserModel.update(userData, { where: { id }, returning: true }).then(
-    (result: [number, UserSchema[]]) => result?.[1]?.[0] ?? null
-  );
+export const updateUser = (id: string, userData: UserModel) => {
+  return UserModel.update(userData, {
+    where: { id },
+    returning: true,
+  }).then((result: [number, UserModel[]]) => result?.[1]?.[0] ?? null);
 };
 
 export const deleteUser = (id: string) => {
