@@ -1,1 +1,1 @@
-export * from './global.errorHandling';
+export * from './global.errors';
