@@ -2,6 +2,10 @@ import { Router } from 'express';
 import { ValidatedRequest } from 'express-joi-validation';
 
 import { errorHandler } from './group.errorHandling';
+import { errorFormatter } from '../global/global.errors';
+
+import performanceLogger from '../../logger/middlewares/performanceLogger';
+import errorLogger from '../../logger/middlewares/errorLogger';
 import {
   // methods
   createGroup,
@@ -22,12 +26,13 @@ const router = Router();
 
 router
   .route('/:id')
-  .get(async (req, res) => {
+  .get(performanceLogger, async (req, res) => {
     const user = await getGroup(req.params.id);
 
     res.json(user);
   })
   .patch(
+    performanceLogger,
     updateGroupDataValidator,
     async (req: ValidatedRequest<GroupRequestSchema>, res, next) => {
       try {
@@ -47,7 +52,7 @@ router
 
 router
   .route('/')
-  .get(async (req, res, next) => {
+  .get(performanceLogger, async (req, res, next) => {
     try {
       const allGroups = await getAllGroups();
 
@@ -57,6 +62,7 @@ router
     }
   })
   .post(
+    performanceLogger,
     addGroupDataValidator,
     async (req: ValidatedRequest<GroupRequestSchema>, res, next) => {
       try {
@@ -71,6 +77,7 @@ router
 router
   .route('/addUsersToGroup')
   .post(
+    performanceLogger,
     addUserstoGroupValidator,
     async (req: ValidatedRequest<AddUsersToGroupRequestSchema>, res, next) => {
       try {
@@ -82,6 +89,6 @@ router
     }
   );
 
-router.use(errorHandler);
+router.use(errorFormatter, errorLogger, errorHandler);
 
 export { router as groupRouter };

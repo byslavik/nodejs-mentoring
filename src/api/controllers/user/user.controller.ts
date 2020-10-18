@@ -2,6 +2,9 @@ import { Router } from 'express';
 import { ValidatedRequest } from 'express-joi-validation';
 
 import { errorHandler } from './user.errorHandling';
+import { logger } from '../../logger';
+import performanceLogger from '../../logger/middlewares/performanceLogger';
+import errorLogger from '../../logger/middlewares/errorLogger';
 import {
   // methods
   createUser,
@@ -16,17 +19,19 @@ import {
   searchUserDataValidator,
   SearchRequestSchema,
 } from '../../services/user';
+import { errorFormatter } from '../global/global.errors';
 
 const router = Router();
 
 router
   .route('/:id')
-  .get(async (req, res) => {
+  .get(performanceLogger, async (req, res) => {
     const user = await getUser(req.params.id);
 
     res.json(user);
   })
   .patch(
+    performanceLogger,
     updateUserDataValidator,
     async (req: ValidatedRequest<UserRequestSchema>, res, next) => {
       try {
@@ -38,7 +43,7 @@ router
       }
     }
   )
-  .delete(async (req, res) => {
+  .delete(performanceLogger, async (req, res) => {
     const result = await deleteUser(req.params.id);
 
     res.json(result);
@@ -47,10 +52,12 @@ router
 router
   .route('/')
   .post(
+    performanceLogger,
     addUserDataValidator,
     async (req: ValidatedRequest<UserRequestSchema>, res, next) => {
       try {
         const user = await createUser(req.body);
+        logger.info(user);
         res.json(user);
       } catch (err) {
         next(err);
@@ -61,6 +68,7 @@ router
 router
   .route('/search')
   .post(
+    performanceLogger,
     searchUserDataValidator,
     async (req: ValidatedRequest<SearchRequestSchema>, res) => {
       const users = await searchUsers(req.body);
@@ -69,6 +77,6 @@ router
     }
   );
 
-router.use(errorHandler);
+router.use(errorFormatter, errorLogger, errorHandler);
 
 export { router as userRouter };
