@@ -14,7 +14,11 @@ import requestLogger from './logger/middlewares/requestLogger';
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.APP_ORIGIN_URL,
+  })
+);
 app.use(express.json());
 app.use(requestLogger);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
