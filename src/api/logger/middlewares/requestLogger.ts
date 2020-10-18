@@ -1,10 +1,6 @@
 import { logger } from '../index';
 import { NextFunction, Request, Response } from 'express';
-
-const sanitizeRequestParams = (body: any) => ({
-  ...body,
-  password: body.password.replace(/./g, '*'),
-});
+import { sanitizeRequestParams } from '../../helpers';
 
 const requestLogger = (req: Request, res: Response, next: NextFunction) => {
   logger.info(
