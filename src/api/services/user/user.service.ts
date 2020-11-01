@@ -18,7 +18,7 @@ export const updateUser = (id: string, userData: UserModel) => {
   return UserModel.update(userData, {
     where: { id },
     returning: true,
-  }).then((result: [number, UserModel[]]) => result?.[1]?.[0] ?? null);
+  })?.then((result: [number, UserModel[]]) => result?.[1]?.[0] ?? null);
 };
 
 export const deleteUser = (id: string) => {

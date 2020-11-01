@@ -13,10 +13,14 @@
     "start:1.1": "nodemon ./src/core/task1.1/index.ts",
     "start:1.2:ram": "nodemon ./src/core/task1.2/index.ts --ram",
     "start:1.2:stream": "nodemon ./src/core/task1.2/index.ts --stream",
-    "start:api": "nodemon ./src/api/index.ts"
+    "start:api": "nodemon ./src/api/index.ts",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "devDependencies": {
     "@types/express": "^4.17.7",
+    "@types/cors": "^2.8.8",
+    "@types/jest": "^26.0.15",
     "@types/joi": "^14.3.4",
     "@types/node": "^14.0.27",
     "@types/swagger-ui-express": "^4.1.2",
@@ -33,13 +37,13 @@
     "typescript-eslint": "^0.0.1-alpha.0"
   },
   "dependencies": {
-    "@types/cors": "^2.8.8",
     "cors": "^2.8.5",
     "csvtojson": "^2.0.10",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-joi-validation": "^4.0.4-beta.0",
     "express-router": "^0.0.1",
+    "jest": "^26.6.1",
     "joi": "^17.2.0",
     "jose": "^2.0.2",
     "pg": "^8.3.3",
@@ -47,6 +51,7 @@
     "sequelize": "5.22.3",
     "sequelize-typescript": "^1.1.0",
     "swagger-ui-express": "^4.1.4",
+    "ts-jest": "^26.4.3",
     "winston": "^3.3.3"
   }
 }

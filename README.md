@@ -29,3 +29,7 @@ API described in Swagger. To access it follow the steps:
 * Run `yarn` to install all dependencies
 * Run `yarn start:api`
 * Open your browser and go to `http://localhost:8080/api-docs`
+
+## Testing
+To just run test you can use `yarn test` command
+In order to run tests with coverage you can use `yarn test:coverage` command

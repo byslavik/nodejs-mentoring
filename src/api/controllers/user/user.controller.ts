@@ -1,10 +1,7 @@
-import { Router } from 'express';
 import { ValidatedRequest } from 'express-joi-validation';
+import { Request, Response, NextFunction } from 'express';
 
-import { errorHandler } from './user.errorHandling';
 import { logger } from '../../logger';
-import performanceLogger from '../../logger/middlewares/performanceLogger';
-import errorLogger from '../../logger/middlewares/errorLogger';
 import {
   // methods
   createUser,
@@ -13,70 +10,55 @@ import {
   deleteUser,
   searchUsers,
   // validators
-  addUserDataValidator,
-  updateUserDataValidator,
   UserRequestSchema,
-  searchUserDataValidator,
   SearchRequestSchema,
 } from '../../services/user';
-import { errorFormatter } from '../global/global.errors';
 
-const router = Router();
+export const getUserMethod = async (req: Request, res: Response) => {
+  const user = await getUser(req.params.id);
 
-router
-  .route('/:id')
-  .get(performanceLogger, async (req, res) => {
-    const user = await getUser(req.params.id);
+  res.json(user);
+};
+
+export const updateUserMethod = async (
+  req: ValidatedRequest<UserRequestSchema>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = await updateUser(req.params.id, req.body);
 
     res.json(user);
-  })
-  .patch(
-    performanceLogger,
-    updateUserDataValidator,
-    async (req: ValidatedRequest<UserRequestSchema>, res, next) => {
-      try {
-        const user = await updateUser(req.params.id, req.body);
+  } catch (err) {
+    next(err);
+  }
+};
 
-        res.json(user);
-      } catch (err) {
-        next(err);
-      }
-    }
-  )
-  .delete(performanceLogger, async (req, res) => {
-    const result = await deleteUser(req.params.id);
+export const deleteUserMethod = async (req: Request, res: Response) => {
+  const result = await deleteUser(req.params.id);
 
-    res.json(result);
-  });
+  res.json(result);
+};
 
-router
-  .route('/')
-  .post(
-    performanceLogger,
-    addUserDataValidator,
-    async (req: ValidatedRequest<UserRequestSchema>, res, next) => {
-      try {
-        const user = await createUser(req.body);
-        logger.info(user);
-        res.json(user);
-      } catch (err) {
-        next(err);
-      }
-    }
-  );
+export const createUserMethod = async (
+  req: ValidatedRequest<UserRequestSchema>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = await createUser(req.body);
+    logger.info(user);
+    res.json(user);
+  } catch (err) {
+    next(err);
+  }
+};
 
-router
-  .route('/search')
-  .post(
-    performanceLogger,
-    searchUserDataValidator,
-    async (req: ValidatedRequest<SearchRequestSchema>, res) => {
-      const users = await searchUsers(req.body);
+export const searchUsersMethod = async (
+  req: ValidatedRequest<SearchRequestSchema>,
+  res: Response
+) => {
+  const users = await searchUsers(req.body);
 
-      res.json(users);
-    }
-  );
-
-router.use(errorFormatter, errorLogger, errorHandler);
-
-export { router as userRouter };
+  res.json(users);
+};
