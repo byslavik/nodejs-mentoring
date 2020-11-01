@@ -1,4 +1,4 @@
-import { Group, UserGroup, User } from '../../models';
+import { Group, User } from '../../models';
 import sequelize from '../../db';
 
 export const getGroup = (id: string) => {
@@ -14,7 +14,7 @@ export const createGroup = (group: Group) => {
 };
 
 export const updateGroup = (id: string, groupData: Group) => {
-  return Group.update(groupData, { where: { id }, returning: true }).then(
+  return Group.update(groupData, { where: { id }, returning: true })?.then(
     (result: [number, Group[]]) => result?.[1]?.[0] ?? null
   );
 };
